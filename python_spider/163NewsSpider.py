@@ -30,7 +30,18 @@ def New_Page_Info(new_page):
     # return results
     dom = etree.HTML(new_page)
     new_items = dom.xpath('//tr/td/a/text()')
+#    for item in new_items:
+#        print item.encode("utf8")
+
     new_urls = dom.xpath('//tr/td/a/@href')
+#    for url in new_urls:
+#        print url.encode("utf8")
+
+    new_content = dom.xpath('//*[@id="epContentLeft"]/div[2]')
+    for cc in new_content:
+        print cc.encode("utf8")
+
+
     assert(len(new_items) == len(new_urls))
     return zip(new_items, new_urls)
 
@@ -40,6 +51,8 @@ def Spider(url):
     myPage = requests.get(url).content.decode("gbk")
     # myPage = urllib2.urlopen(url).read().decode("gbk")
     myPageResults = Page_Info(myPage)
+    print myPageResults
+
     save_path = u"163_news"
     filename = str(i)+"_"+u"news_rank"
     StringListSave(save_path, filename, myPageResults)
